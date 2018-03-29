@@ -7,7 +7,7 @@ module GraphQL
 
         old_resolver = field.resolve_proc
         new_resolver = ->(obj, args, ctx) do
-          return old_resolver.call(obj, args, ctx) unless obj
+          return old_resolver.call(obj, args, ctx) if obj.nil? || !args.groupBy.nil?
 
           if field.metadata[:preload_scope]
             scope_lambda = field.metadata[:preload_scope]
